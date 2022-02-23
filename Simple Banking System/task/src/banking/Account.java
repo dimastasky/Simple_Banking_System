@@ -2,7 +2,7 @@ package banking;
 
 import banking.bankcard.Card;
 
-//Account class, that includes Card and Balance
+//User's bank account, that keeps card and balance
 public class Account {
     private int balance;
     private Card card;

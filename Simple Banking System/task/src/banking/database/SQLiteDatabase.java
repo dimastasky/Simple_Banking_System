@@ -26,6 +26,10 @@ public class SQLiteDatabase implements InterfaceDB{
     private Connection con;
     private final String DATABASE_URL;
 
+    /**
+     * Constructor to create SQLite database
+     * @param databaseName Name of the database
+     */
     public SQLiteDatabase(String databaseName) {
         dataSource = new SQLiteDataSource();
         DATABASE_URL = "jdbc:sqlite:" + databaseName;
@@ -39,6 +43,7 @@ public class SQLiteDatabase implements InterfaceDB{
         createTable();
     }
 
+    //Function for creating DB table using SQL_CREATE_TABLE
     private void createTable() {
         try (Statement statement = con.createStatement()) {
             statement.executeUpdate(SQL_CREATE_TABLE);
@@ -48,6 +53,10 @@ public class SQLiteDatabase implements InterfaceDB{
         }
     }
 
+    /**
+     * Save user's account data into DB using SQL_ADD_ACCOUNT
+     * @param userAccount Generated Card number and Pin
+     */
     @Override
     public void createAccount(Account userAccount) {
         try(PreparedStatement ps = con.prepareStatement(SQL_ADD_ACCOUNT)) {
@@ -59,6 +68,11 @@ public class SQLiteDatabase implements InterfaceDB{
         }
     }
 
+    /**
+     * Login into account using SQL_LOGIN_ACCOUNT
+     * @param userCard Inputed Card number and Pin
+     * @return If logged in, returns Card and Balance
+     */
     @Override
     public Account loginAccount(Card userCard) {
         Account resultAccount = null;
@@ -79,6 +93,11 @@ public class SQLiteDatabase implements InterfaceDB{
         return resultAccount;
     }
 
+    /**
+     * Update balance of specified card using SQL_UPDATE_ACCOUNT
+     * @param cardNumber Card number, which balance would be modified
+     * @param changeBalance Modified balance
+     */
     @Override
     public void updateAccount(String cardNumber, int changeBalance) {
         try (PreparedStatement ps = con.prepareStatement(SQL_UPDATE_ACCOUNT)) {
@@ -91,6 +110,10 @@ public class SQLiteDatabase implements InterfaceDB{
         }
     }
 
+    /**
+     * Delete account from DB using SQL_DELETE_ACCOUNT
+     * @param userAccount User account to be deleted
+     */
     @Override
     public void deleteAccount(Account userAccount) {
         try (PreparedStatement ps = con.prepareStatement(SQL_DELETE_ACCOUNT)) {
@@ -101,6 +124,11 @@ public class SQLiteDatabase implements InterfaceDB{
         }
     }
 
+    /**
+     * Find account (to check if account exists) using SQL_FIND_ACCOUNT
+     * @param cardNumber Card number to be found in DB
+     * @return If TRUE - account is found, if FALSE - account not found
+     */
     @Override
     public boolean findAccount(String cardNumber) {
         try (PreparedStatement ps = con.prepareStatement(SQL_FIND_ACCOUNT)){
@@ -112,10 +140,10 @@ public class SQLiteDatabase implements InterfaceDB{
         } catch (SQLException e) {
             System.out.println("Find account error!");
         }
-
         return false;
     }
 
+    //Close connection to DB
     @Override
     public void close() {
         try {

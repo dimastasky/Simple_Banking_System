@@ -17,6 +17,4 @@ public class Card {
     public String getPin() {
         return pin;
     }
-
-
 }

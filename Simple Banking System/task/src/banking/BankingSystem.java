@@ -2,14 +2,15 @@ package banking;
 
 import banking.bankcard.Card;
 import banking.bankcard.CardGenerator;
-import banking.Account;
 import banking.database.InterfaceDB;
 import banking.database.SQLiteDatabase;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
+/*
+    Create, Delete banking cards.
+    Login into accounts, transfer money from card to card, check balance.
+ */
 public class BankingSystem {
 
     private Scanner scanner = new Scanner(System.in);
@@ -41,6 +42,15 @@ public class BankingSystem {
         }
     }
 
+    /*
+         Log into bank account and perform actions:
+         1) Check balance;
+         2) Add income
+         3) Do transfer
+         4) Close account
+         5) Log out
+         6) Exit application
+     */
     private void loggingInBankSystem() {
         System.out.println("\nEnter your card number:");
         String cardNumberInput = scanner.nextLine();
@@ -121,6 +131,7 @@ public class BankingSystem {
 
     }
 
+    //Creates new account and saves it to DB
     private void registerCard() {
         Account newUser = new Account(CardGenerator.createCard());
         dataBase.createAccount(newUser);
@@ -132,8 +143,6 @@ public class BankingSystem {
                 newUser.getCard().getNumber(),
                 newUser.getCard().getPin() ));
     }
-
-
 
     private void initialUI() {
         System.out.println("\n1. Create an account\n" +
